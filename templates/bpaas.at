@@ -1,0 +1,23 @@
+Template bpaas version 1.0
+	Initiator: "Reclamante";
+	Provider "Sistema de Reclamaciones" as Responder;
+	Metrics:
+		price: integer;
+		percentage: integer[0..100];
+
+AgreementTerms
+	Service Servicio_reclamaciones definedAt "http://procesoReclamaciones.com/SR"
+		GlobalDescription
+			PlanPrice: price = 3;
+
+	MonitorableProperties
+		global:
+			TCumplidos: percentage definedAt "http://procesoReclamaciones.com/SR#TCumplidos";
+
+	GuaranteeTerms
+		G1: Provider guarantees TCumplidos > 95;
+		with monthly penalty
+		of Penalty = TCumplidos - 95 if TCumplidos < 95;
+		end
+
+EndTemplate
